@@ -2,11 +2,11 @@ import User from "../models/user.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
+
 export function createUser(req,res){
 
-
     const passwordHash = bcrypt.hashSync(req.body.password,10)
-    
+
 
 
     const userData = {
@@ -16,8 +16,7 @@ export function createUser(req,res){
         password : passwordHash,
     }
 
-    const user = new User(userData);
-    console.log(user);
+    const user = new User(userData)
 
     user.save().then(
         ()=>{
@@ -69,7 +68,8 @@ export function loginUser(req,res){
 
                     res.json({
                         token : token,
-                        message : "Login successful"
+                        message : "Login successful",
+                        role : user.role
                     })
                 }else{
                     res.status(403).json({
@@ -79,4 +79,17 @@ export function loginUser(req,res){
             }
         }
     )
+}
+
+export function isAdmin(req){
+    
+    if(req.user == null){
+        return false;
+    }
+
+    if(req.user.role == "admin"){
+        return true;
+    }else{
+        return false;
+    }
 }

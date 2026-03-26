@@ -1,23 +1,27 @@
 import express from "express"
 import mongoose from "mongoose"
 import bodyParser from "body-parser"
-import studentRouter from "./routers/studentRouters.js"
-import userRouter from "./routers/userRouters.js" 
-import Student from "./models/student.js";
 
-const app = express();
+import userRouter from "./routers/userRouters.js"
+import jwt from "jsonwebtoken"
+import productRouter from "./routers/productRouters.js"
+import dotenv from "dotenv"
+import cors from "cors"
 
+dotenv.config()
+const app = express()
 
 
 app.use(bodyParser.json())
+app.use(cors()) 
 
 app.use(
     (req,res,next)=>{
         const value = req.header("Authorization")
-        if(value !=null){
+        if(value != null){
             const token = value.replace("Bearer ","")
             jwt.verify(
-              token,
+                token,
                 "cbc-6503",
                 (err,decoded)=>{
                     if(decoded == null){
@@ -27,47 +31,48 @@ app.use(
                     }else{
                         req.user = decoded
                         next()
-                    }    
-
-                }      
-            )   
-                
-                
-        
+                    }                    
+                }
+            )
         }else{
             next()
-        }
-    }
-    )
+        }        
+    }                                       
+)
 
-const connectionString="mongodb+srv://admin:123@cluster0.ddgltgx.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
+
+
+
+
+
+let connectionString = "mongodb+srv://admin:1104@cluster0.kiwcsok.mongodb.net/?appName=Cluster0"
+
+
+ 
 
 
 mongoose.connect(connectionString).then(
     ()=>{
-        console.log ("Database connected")
+        console.log("Connected to database")
     }
 ).catch(
     ()=>{
-        console.log("failed to connect to the database")
+        console.log("Failed to connect to the database")
     }
 )
 
-app.use("/students",studentRouter)
+
+
+
 app.use("/users", userRouter)
 
-app.listen(5000 , 
-    ()=>{
-        console.log("Server started")
-    }
-)    
+app.use("/api/users", userRouter)
+app.use("/api/products",productRouter)
 
 
 
-
-
-
-
-
-
-
+app.listen(5000, 
+   ()=>{
+       console.log("server started")
+   }                                                                                   
+)                                                                                                             

@@ -1,7 +1,7 @@
 import Product from "../models/product.js";
 import { isAdmin } from "./userController.js";
 
-export async function createProduct(req, res) {
+export async function createProduct(req, res) {                  
 	if (!isAdmin(req)) {
 		return res.status(403).json({ message: "Access denied. Admins only." });
 	}
@@ -131,3 +131,4 @@ export async function searchProducts(req,res){
 
 	//
 }
+	

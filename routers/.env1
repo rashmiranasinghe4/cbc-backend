@@ -1,0 +1,3 @@
+DATABASE_URL = "mongodb+srv://admin:123@cluster0.ddgltgx.mongodb.net/cbc-skyrek"
+
+JWT_SECRET="cbc-6503"
