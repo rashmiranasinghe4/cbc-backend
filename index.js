@@ -5,6 +5,7 @@ import bodyParser from "body-parser"
 import userRouter from "./routers/userRouters.js"
 import jwt from "jsonwebtoken"
 import productRouter from "./routers/productRouters.js"
+import orderRouter from "./routers/orderRouters.js"
 import dotenv from "dotenv"
 import cors from "cors"
 
@@ -68,6 +69,7 @@ app.use("/users", userRouter)
 
 app.use("/api/users", userRouter)
 app.use("/api/products",productRouter)
+app.use("/api/orders", orderRouter)
 
 
 
