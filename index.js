@@ -41,12 +41,7 @@ app.use(
     }                                       
 )
 
-
-
-
-
-
-let connectionString = "mongodb+srv://admin:1104@cluster0.kiwcsok.mongodb.net/?appName=Cluster0"
+const connectionString = process.env.MONGO_URI
 
 
  

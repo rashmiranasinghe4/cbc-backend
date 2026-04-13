@@ -5,6 +5,7 @@ import dotenv from "dotenv";
 import axios from "axios";
 import nodemailer from "nodemailer"
 import OTP from "../models/otp.js";
+import Contact from "../models/contact.js";
 const pw = process.env.EMAIL_PASSWORD;
 dotenv.config();
 
@@ -241,4 +242,30 @@ export async function resetPassword(req,res){
         console.log(err)
         res.status(500).json({ message: "Failed to reset password" });
     }
+}
+
+export async function saveContact(req, res) {
+  const { name, email, message } = req.body;
+
+  try {
+    const contact = new Contact({
+      name,
+      email,
+      message
+    });
+
+    await contact.save();
+
+    res.json({
+      success: true,
+      message: "Message sent successfully!"
+    });
+
+  } catch (error) {
+    console.error(error); // 👈 add this
+    res.status(500).json({
+      success: false,
+      error: error.message
+    });
+  }
 }
