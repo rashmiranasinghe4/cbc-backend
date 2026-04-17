@@ -292,7 +292,8 @@ export const registerUser = async (req, res) => {
       lastName,
       email,
       phone,
-      password: hashedPassword
+      password: hashedPassword,
+       role: email === "admin@gmail.com" ? "admin" : "user"
     });
 
     await user.save();
@@ -301,6 +302,38 @@ export const registerUser = async (req, res) => {
 
   } catch (err) {
     console.log("REGISTER ERROR:", err); // 🔥 very important
+    res.status(500).json({ message: err.message });
+  }
+};
+
+
+
+
+// 🔥 GET ALL USERS
+export const getAllUsers = async (req, res) => {
+  try {
+    const users = await User.find().select("-password"); // hide password
+    res.json({ users });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
+
+// 🔥 BLOCK / UNBLOCK USER
+export const updateUserStatus = async (req, res) => {
+  try {
+    const userId = req.params.id;
+    const { blocked } = req.body;
+
+    const user = await User.findByIdAndUpdate(
+      userId,
+      { blocked },
+      { new: true }
+    );
+
+    res.json({ message: "User updated", user });
+  } catch (err) {
     res.status(500).json({ message: err.message });
   }
 };
