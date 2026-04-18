@@ -2,10 +2,14 @@ import express from "express"
 import mongoose from "mongoose"
 import bodyParser from "body-parser"
 
+
 import userRouter from "./routers/userRouters.js"
 import jwt from "jsonwebtoken"
 import productRouter from "./routers/productRouters.js"
 import orderRouter from "./routers/orderRouters.js"
+import dashboardRouter from "./routers/dashboardRouter.js";
+
+
 import dotenv from "dotenv"
 import cors from "cors"
 
@@ -65,6 +69,7 @@ app.use("/users", userRouter)
 app.use("/api/users", userRouter)
 app.use("/api/products",productRouter)
 app.use("/api/orders", orderRouter)
+app.use("/api/dashboard", dashboardRouter)
 
 
 
